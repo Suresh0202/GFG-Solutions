@@ -102,28 +102,25 @@ class Node {
 */
 
 class Solution {
-    int count = 0;
-    void helper(Node root,int k,ArrayList<Integer> path){
-        if(root == null){
-            return;
-        }
-        path.add(root.data);
-        int size = path.size();
-        int sum = 0;
-        for(int i=size-1;i >=0;i--){
-            sum += path.get(i);
-            if(sum == k){
-                count++;
-            }
-        }
-        helper(root.left,k,path);
-        helper(root.right,k,path);
-        path.remove(path.size()-1);
+     private int dfs(Node node, int currentSum, int k, Map<Integer, Integer> prefixSum) {
+        if (node == null) return 0;
+
+        currentSum += node.data;
+        int count = prefixSum.getOrDefault(currentSum - k, 0);
+        prefixSum.put(currentSum, prefixSum.getOrDefault(currentSum, 0) + 1);
+
+        count += dfs(node.left, currentSum, k, prefixSum);
+        count += dfs(node.right, currentSum, k, prefixSum);
+
+        prefixSum.put(currentSum, prefixSum.get(currentSum) - 1);
+
+        return count;
     }
     public int sumK(Node root, int k) {
         // code here
-        ArrayList<Integer> path = new ArrayList<>();
-        helper(root , k, path);
-        return count;
+          if (root == null) return 0;
+        Map<Integer, Integer> prefixSum = new HashMap<>();
+        prefixSum.put(0, 1);
+        return dfs(root, 0, k, prefixSum);
     }
 }
