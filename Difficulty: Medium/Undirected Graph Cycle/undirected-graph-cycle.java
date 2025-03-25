@@ -33,52 +33,57 @@ class GFG {
 }
 // } Driver Code Ends
 
-
-class Solution {
-    public boolean detect(ArrayList<ArrayList<Integer>> adj,int vis[],int v)
+class Pair{
+    int first;
+    int second;
+    Pair(int first,int second)
     {
-       
-        Queue<int []>qu=new LinkedList<>();
-         vis[v]=1;
-      qu.add(new int[]{v, -1});
+        this.first=first;
+        this.second=second;
+    }
+}
+class Solution {
+    public boolean detect(int src,int vis[],ArrayList<ArrayList<Integer>> adj)
+    {
+        vis[src]=1;
+        Queue<Pair>qu=new LinkedList<>();
+        qu.add(new Pair(src,-1));
         while(!qu.isEmpty())
         {
-            int x[]=qu.poll();
-            int node=x[0];
-            int parent=x[1];
-            
+            int node=qu.peek().first;
+            int parent=qu.peek().second;
+            qu.remove();
             for(int i:adj.get(node))
             {
                 if(vis[i]==0)
                 {
                     vis[i]=1;
-                    qu.add(new int[]{i, node});
+                    qu.add(new Pair(i,node));
                 }
-                else if(i != parent)
+                else if(parent != i)
                 {
                     return true;
                 }
-                // vis[i]=1;
-                // qu.add(i);
+            }
+        }
+        return false;
+        
+    }
+    // Function to detect cycle in an undirected graph.
+    public boolean isCycle(ArrayList<ArrayList<Integer>> adj) {
+        // Code here
+        int vis[]=new int[adj.size()];
+        for(int i=0;i<vis.length;i++)
+        {
+            if(vis[i]==0)
+            {
+                if(detect(i,vis,adj))
+                {
+                    return true;
+                }
             }
         }
         return false;
     }
-    // Function to detect cycle in an undirected graph.
-    public boolean isCycle(ArrayList<ArrayList<Integer>> adj) {
-
-            int vis[]=new int[adj.size()];
-           for(int i=0;i<adj.size();i++)
-           {
-               if(vis[i]!=1)
-               {
-                   if(detect(adj,vis,i))
-                   {
-                       return true;
-                   }
-               }
-           }
-            return false;
-            
-    }
+    
 }
