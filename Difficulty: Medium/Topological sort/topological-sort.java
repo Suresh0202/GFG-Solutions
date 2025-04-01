@@ -55,32 +55,44 @@ class Main {
 
 
 class Solution {
-    public static void dfs(int node,int vis[],ArrayList<ArrayList<Integer>> adj,ArrayList<Integer>ans)
-    {
-        vis[node]=1;
-        for(int i:adj.get(node))
-        {
-            if(vis[i]==0)
-            {
-                dfs(i,vis,adj,ans);
-            }
-        }
-        ans.add(0,node);
-        return;
-    }
     // Function to return list containing vertices in Topological order.
     static ArrayList<Integer> topologicalSort(ArrayList<ArrayList<Integer>> adj) {
         // Your code here
-        ArrayList<Integer>ans=new ArrayList<>();
-        int vis[]=new int[adj.size()];
-        for(int i=0;i<vis.length;i++)
+        // step 1:find indergree of graph
+        int indeg[]=new int[adj.size()];
+        for(int i=0;i<adj.size();i++)
         {
-            if(vis[i]==0)
+            for(int it:adj.get(i))
             {
-                dfs(i,vis,adj,ans);
+                indeg[it]++;
+            }
+            
+        }
+        Queue<Integer>qu=new LinkedList<>();
+        
+        // step 2:add all nodes in qu with indeg 0:
+        for(int i=0;i<indeg.length;i++){
+            if(indeg[i]==0)
+            {
+                qu.add(i);
             }
         }
-        // return Collections.reverse(arr);
-        return ans;
+        // step 3:apply bfs and find the topo order 
+        ArrayList<Integer>topo=new ArrayList<>();
+        while(!qu.isEmpty())
+        {
+            int node=qu.peek();
+            qu.remove();
+            topo.add(node);
+            for(int i:adj.get(node))
+            {
+                indeg[i]--;
+                if(indeg[i]==0)
+                {
+                    qu.add(i);
+                }
+            }
+        }
+        return topo;
     }
 }
