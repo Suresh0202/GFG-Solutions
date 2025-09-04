@@ -10,37 +10,29 @@ class Solution {
     // Function to find the maximum number of meetings that can
     // be performed in a meeting room.
     public int maxMeetings(int start[], int end[]) {
-        TreeMap<Integer,List<Pair>>mp=new TreeMap<>();
+        List<Pair>ar=new ArrayList<>();
         for(int i=0;i<start.length;i++)
         {
             int st=start[i];
             int ed=end[i];
-            if(!mp.containsKey(ed))
-            {
-                mp.put(ed,new ArrayList<>());
-            }
-            mp.get(ed).add(new Pair(st,ed));
+            ar.add(new Pair(st,ed));
             
         }
         int cnt=0;
         // System.out.println(mp);
-              int prev = Integer.MIN_VALUE; // ✅ key fix
-
-        for(int key:mp.keySet())
+              int prev = Integer.MIN_VALUE; 
+        Collections.sort(ar,(a,b)->a.ed-b.ed);
+        
+        for(Pair p:ar)
         {
-            List<Pair>l=mp.get(key);
-            for(int i=0;i<l.size();i++)
+            int st=p.st;
+            int ed=p.ed;
+            if(prev < st)
             {
-                int st=l.get(i).st;
-                int ed=l.get(i).ed;
-                if(prev < st)
-                {
-                    cnt++;
-                    prev=ed;
-                    break;
-                }
+                cnt++; 
+                prev=ed;
+                // break;
             }
-            
         }
         return cnt;
     }
