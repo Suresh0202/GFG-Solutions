@@ -11,52 +11,31 @@ class Node {
 */
 
 class Solution {
+    public int func(Node temp)
+    {
+        int c=1;
+        Node x=temp.next;
+        while(x != temp)
+        {
+            x=x.next;
+            c++;
+        }
+        return c;
+    }
     public int lengthOfLoop(Node head) {
         // code here
-        ArrayList<Node>st=new ArrayList<>();
-        LinkedHashMap<Node,Integer>mp=new LinkedHashMap<>();
-        Node temp=head;
-        int ans=-1;
-        Node x=null;
-        while(temp != null)
+        Node slow=head;
+        Node fast=head;
+        int c=0;
+        while(fast != null && fast.next != null)
         {
-            if(mp.containsKey(temp))
+            slow=slow.next;
+            fast=fast.next.next;
+            if(slow == fast)
             {
-                x=temp;
-                st.add(temp);
-                break;
-            }
-            // System.out.println("inside "+temp);
-            st.add(temp);
-            mp.put(temp,0);
-            temp=temp.next;
-        }
-        // Node y=temp;
-        // while(y!= null)
-        // {
-        //     while(y == x)
-        //     {
-                
-        //     }
-        // }
-        for(int i=0;i<st.size();i++)
-        {
-            if(x == st.get(i))
-            {
-                ans=i;
-                break;
+               return func(slow);
             }
         }
-        int ans1=-1;
-        for(int i=0;i<st.size();i++)
-        {
-            if(x == st.get(i) && i != ans)
-            {
-                ans1=i;
-                break;
-            }
-        }
-        // System.out.println(ans +" " + ans1);
-        return ans1-ans;
+        return 0;
     }
 }
