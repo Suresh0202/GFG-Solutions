@@ -6,21 +6,20 @@ class Solution {
         Queue<Integer>qu=new LinkedList<>();
         qu.add(0);
         int vis[]=new int[adj.size()];
+        // ans.add(0);
         vis[0]=1;
         while(!qu.isEmpty())
         {
-            int x=qu.poll();
-            ans.add(x);
-            vis[x]=1;
-            for(int i:adj.get(x))
+            int node=qu.poll();
+            ans.add(node);
+            for(int i:adj.get(node))
             {
-                if(vis[i] != 1)
+                if(vis[i] == 0)
                 {
                     vis[i]=1;
                     qu.add(i);
                 }
             }
-
         }
         return ans;
         
