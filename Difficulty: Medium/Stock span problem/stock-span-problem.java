@@ -1,27 +1,26 @@
 
 class Solution {
-    public int func(int arr[],int idx,int ele)
-    {
-        int cnt=0;
-        for(int i=idx-1;i>=0;i--)
-        {
-            if(arr[i] <=ele )
-            {
-                cnt++;
-            }else{
-                break;
-            }
-        }
-        return cnt;
-    }
+    
     public ArrayList<Integer> calculateSpan(int[] arr) {
         // code here
         ArrayList<Integer>ans=new ArrayList<>();
-        for(int i=0;i<arr.length;i++)
+        int n=arr.length;
+        Stack<Integer>st=new Stack<>();
+        for(int i=0;i<n;i++)
         {
-            int x=func(arr,i,arr[i]);
-            ans.add(x+1);
-            
+            while(!st.isEmpty() && arr[i] >= arr[st.peek()])
+            {
+                st.pop();
+            }
+            if(st.isEmpty())
+            {
+                ans.add(i+1);
+            }
+            else
+            {
+                ans.add(i-st.peek());
+            }
+            st.push(i);
         }
         return ans;
     }
