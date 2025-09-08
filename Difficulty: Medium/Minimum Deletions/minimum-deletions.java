@@ -1,21 +1,23 @@
 class Solution {
     static int minDeletions(String s) {
-        int n = s.length();
-        int[][] dp = new int[n][n];
-
-        // substrings of length 1 are already palindromes, so dp[i][i] = 0
-
-        // gap = substring length - 1
-        for (int gap = 1; gap < n; gap++) {
-            for (int i = 0, j = gap; j < n; i++, j++) {
-                if (s.charAt(i) == s.charAt(j)) {
-                    dp[i][j] = dp[i + 1][j - 1];  // no deletion needed
-                } else {
-                    dp[i][j] = 1 + Math.min(dp[i + 1][j], dp[i][j - 1]); // delete one side
-                }
-            }
+        // code here
+        Integer dp[][]=new Integer[s.length()][s.length()];
+        return func(s,dp,0,s.length()-1);
+    }
+    static int func(String s,Integer dp[][],int i,int j)
+    {
+        if(i>=j)
+        {
+            return 0;
         }
-
-        return dp[0][n - 1]; // whole string result
+        if(dp[i][j] != null)
+        {
+            return dp[i][j];
+        }
+        if(s.charAt(i) == s.charAt(j))
+        {
+            return func(s,dp,i+1,j-1);
+        }
+        return dp[i][j]=1+Math.min(func(s,dp,i+1,j) , func(s,dp,i,j-1));
     }
 }
