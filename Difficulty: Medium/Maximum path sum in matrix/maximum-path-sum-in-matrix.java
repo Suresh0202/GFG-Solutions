@@ -6,6 +6,13 @@ class Solution {
         {
             return Integer.MIN_VALUE;
         }
+        for(int i=0;i<mat[0].length;i++)
+        {
+            if(sr == mat.length-1 && sc == i)
+            {
+                return mat[sr][sc];
+            }
+        }
        if (sr == mat.length - 1) {
             return mat[sr][sc];
         }
