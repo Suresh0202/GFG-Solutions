@@ -12,77 +12,26 @@ class Node
 }*/
 
 class Solution {
-    public void func(Node root,int p,int q,List<Integer>a,List<List<Integer>>ans)
+    public Node func(Node root,int n1,int n2)
     {
-        if(root == null)
+        if(root == null || root.data == n1 || root.data == n2)
         {
-            return;
+            return root;
         }
-        if(root.data == p)
+        Node left=func(root.left,n1,n2);
+        Node right=func(root.right,n1,n2);
+        if(left == null)
         {
-            a.add(root.data);
-            ans.add(new ArrayList<>(a));
-            a.remove(a.size()-1);
-            // return ;
+            return right;
         }
-        if(root.data == q)
+        if(right == null)
         {
-            a.add(root.data);
-            ans.add(new ArrayList<>(a));
-            a.remove(a.size()-1);
-            // return;
+            return left;
         }
-        if(root.left != null)
-        {
-        a.add(root.data);
-        func(root.left,p,q,a,ans);
-        a.remove(a.size()-1);
-
-        }
-        if(root . right != null)
-        {
-          
-
-        a.add(root.data);
-        func(root.right,p,q,a,ans);
-        a.remove(a.size()-1);
-
-        }
+        return root;
     }
-    Node lca(Node root, int p, int q) {
+    Node lca(Node root, int n1, int n2) {
         // code here
-         List<List<Integer>>ans=new ArrayList<>();
-        List<Integer>a=new ArrayList<>();
-        func(root,p,q,a,ans);
-        // System.out.println(ans);
-        List<Integer>p1=ans.get(0);
-        List<Integer>p2=ans.get(1);
-        int i=0;
-        int j=0;
-        int f=0;
-        while(i<p1.size() && j<p2.size())
-        {
-            i++;
-            j++;
-            if(i<p1.size() && j<p2.size() &&!p1.get(i).equals(p2.get(j)))
-            {
-            //   /
-                break;
-            }
-        }
-        if(i == j)
-        {
-            return new Node(p1.get(i-1));
-        }
-        if(i == p1.size()-1)
-        {
-            return new Node(p2.get(j-1));
-        }
-        if(j == p2.size()-1)
-        {
-            return new Node(p1.get(i-1));
-        }
-        return null;
-        
+        return func(root,n1,n2);
     }
 }
