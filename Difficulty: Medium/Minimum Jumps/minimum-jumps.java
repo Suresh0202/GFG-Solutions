@@ -1,25 +1,31 @@
 class Solution {
-    static int minJumps(int[] arr) {
-         int n = arr.length;
-        if (n <= 1) return 0;        // already at end
-        if (arr[0] == 0) return -1;  // can't move anywhere
-
-        int maxReach = arr[0];  // farthest index reachable
-        int steps = arr[0];     // steps we can still take in current jump
-        int jumps = 1;          // we start with one jump
-
-        for (int i = 1; i < n; i++) {
-            if (i == n - 1) return jumps; // reached end
-
-            maxReach = Math.max(maxReach, i + arr[i]);
-            steps--;
-
-            if (steps == 0) {
+    public int minJumps(int[] arr) {
+        // code here
+        int maxreach=0;
+        int last=0;
+        if(arr.length == 1)
+        {
+            return 0;
+        }
+        int jumps=0;
+        for(int i=0;i<arr.length;i++)
+        {
+            maxreach = Math.max(maxreach,arr[i]+i);
+            if(i == last)
+            {
+                if(maxreach == i)
+                {
+                    jumps=-1;
+                    break;
+                }
+                last=maxreach;
                 jumps++;
-                if (i >= maxReach) return -1; // can't progress further
-                steps = maxReach - i;
+                if(maxreach >= arr.length-1)
+                {
+                    break;
+                }
             }
         }
-        return -1;
+        return jumps;
     }
 }
