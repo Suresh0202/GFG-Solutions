@@ -29,15 +29,12 @@ class Solution {
         func(root.right,mp,tar);
     }
     public ArrayList<Integer> getKClosest(Node root, int target, int k) {
-        // code here
         TreeMap<Integer,List<Integer>>mp=new TreeMap<>();
         func(root,mp,target);
-        // System.out.println(mp);
         ArrayList<Integer>ans=new ArrayList<>();
         for(int val:mp.keySet())
         {
             List<Integer>ar=mp.get(val);
-            // System.out.println(ar);
             for(int i=0;i<ar.size();i++)
             {
                 if(ans.size()  < k)
